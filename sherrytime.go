@@ -1,4 +1,4 @@
-package main //sherrytime
+package sherrytime
 /**
  *  Note: 1.西曆4年羅馬奧古斯都帝停閏,故是年2月仍只有28天。
  *        2.教皇格勒哥里第13始改曆,自西曆1582年10月4日逕跳至15日或自1752年9月2日跳至14日
@@ -9,7 +9,7 @@ package main //sherrytime
 import (
    "time"
    "bytes"
-   log "github.com/sirupsen/logrus"
+   // log "github.com/sirupsen/logrus"
 )
 
 /*
@@ -36,7 +36,6 @@ func (st *SherryTime) leapYear(year int) (bool) {
    // 教皇格勒哥里第13始改曆,以西曆1582年10月5日為15日,中間銷去10日
    return year % 4 == 0 && (year <= 1582 || year % 100 != 0) ||  year % 400 == 0
 }
-
 
 // 取得某月(mm)最後一天的日期
 func (st *SherryTime) lastMonthDay(yy, mm int) (int) {
@@ -76,8 +75,10 @@ func NewSherryTime(locate, del string) (*SherryTime) {
    }
 }
 
+/*
 func main() {
    st := NewSherryTime("Asia/Taipei", "-")
 
    log.Printf("%v", st.Now()) // local time
 }
+*/
