@@ -20,9 +20,27 @@ import (
 
 type SherryTime struct {
    now time.Time
+   numText [12]string
    location string
    delimiter string	// 分隔符號
    dayOfMonths [12]int	// 每月天數
+}
+
+// 阿拉伯數字轉國字
+func (st *SherryTime) toNumText(i int) (string) {  
+   return st.numText[i] 
+}
+
+// <note> 西元1752年九月必須特別處理!
+// <return> 0) success; !=0) fail
+func (st *SherryTime) chkDateW(year, month, day int) (err int) {
+   err = 0
+   if year < 0 || month < 1 || month > 12 || day < 1 || day > st.lastMonthDay(year, month) {
+       err--
+   } else if year == 1582 && month == 10 && day >= 5 && day <= 14 {
+       err--
+   }
+   return  err
 }
 
 // 判斷是否閏年，傳入參數：西元年
@@ -70,6 +88,7 @@ func NewSherryTime(locate, del string) (*SherryTime) {
    return &SherryTime {
       now: time.Now(),
       location: locate,
+      numText: ['�~[�', '�~@', '�~L', '�~I', '�~[~[', '�~T', '�~E�', '�~C', '�~E�', '�~]', '�~M~A',, '�~M~A�~@', '�]M~
       delimiter: del,
       dayOfMonths: [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
    }
