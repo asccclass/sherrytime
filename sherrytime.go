@@ -9,6 +9,9 @@ package sherrytime
 import (
    "time"
    "bytes"
+   "strings"
+   "strconv"
+   "fmt"
    // log "github.com/sirupsen/logrus"
 )
 
@@ -20,7 +23,7 @@ import (
 
 type SherryTime struct {
    now time.Time
-   numText [12]string
+   numText [13]string
    location string
    delimiter string	// 分隔符號
    dayOfMonths [12]int	// 每月天數
@@ -73,7 +76,95 @@ func (st *SherryTime) lastMonthDay(yy, mm int) (int) {
    // return (mm != 0 ? (mm == 2 && yy != 0 ? (st.leapYear(yy) ? 29 : 28) : st.dayOfMonths[mm-1]) : 31)
 }
 
-// 取得目前時間
+// <func> Get day ordinal for western calendar.
+// The ordinal of 1/1/1 is 1.
+// <return> >0) success; -1) fail.
+func(st *SherryTime) toDayOrdW(yy, mm, dd int) (int) {
+   var n int = 0
+   if st.chkDateW(yy, mm, dd) == -1 {   
+      n = -10 
+   } else if yy > 0 {
+      n = dd
+      if mm > 2 && st.leapYear(yy) {
+         n++
+      }
+      // 教皇格勒哥里第13改曆
+      if yy > 1582 || yy == 1582 && (mm > 10 || mm == 10 && dd >= 15) {
+         n -= 10
+      }
+      mm--;
+      for i := 0; i < mm; i++  {
+         n += st.dayOfMonths[i]
+      }
+      yy--
+      n += yy * 365 + yy/4;
+      if yy >= 4  {  // 西曆4年羅馬奧古斯都帝停閏
+         n--
+      }
+      if yy >= 1600  {   // 教皇格勒哥里第13改曆
+         i := yy - 1600;
+         n -= i/100 - i/400;
+      }
+   } else {
+      n = -1
+   }
+   return n
+}
+
+// 轉換成日序
+func(st *SherryTime) toDayOrdWs(yymmdd string)(int)  {
+   d := strings.Split(yymmdd, st.delimiter)
+   yy, _ := strconv.Atoi(d[0])
+   mm, _ := strconv.Atoi(d[1])
+   dd, _ := strconv.Atoi(d[2])
+   return st.toDayOrdW(yy, mm, dd)
+}
+
+// 日序轉西元
+//<func> From darily ordinal 'dOrd' to western date 'yy', 'mm' and 'dd'
+//<return> >=0) week number(0 for Sunday); -1) fail
+func (st *SherryTime) toDateW(dOrd int)(yy, mm, dd, week int) {
+   var baseWeek int = 6
+
+   yy = (int((float64(dOrd)/365.25)) + 1)
+   ord := st.toDayOrdW(yy, 1, 1)
+   if ord < 0 {
+      return -1, 0, 0, 0
+   }
+   dd = dOrd - ord + 1
+   mm = 1
+   yes := yy == 1582 && mm == 10
+   var n int = 0
+   if yes {
+      n = 21
+   } else {
+      n = st.lastMonthDay(yy, mm)
+   }
+   for dd > n  {
+      dd -= n
+      if mm++; mm > 12  {  
+         yy++
+         mm = 1
+      }
+   }
+   if yes && dd > 4 {
+      dd += 10
+   }
+   w := (dOrd + baseWeek) % 7
+   return yy, mm, dd, w
+}
+
+// 日序轉西元
+func (st *SherryTime) toDateWs(dOrd int) (string)  {
+      var y, m, d int
+      y = 0
+      m = 0
+      d = 0
+      y, m , d, _ = st.toDateW(dOrd)
+      return fmt.Sprintf("%d-%d-%d", y, m, d)
+}
+
+// 取得目前日期時間
 func (st *SherryTime) Now() (string) {
    var format bytes.Buffer
    format.WriteString("2006")
@@ -88,7 +179,7 @@ func NewSherryTime(locate, del string) (*SherryTime) {
    return &SherryTime {
       now: time.Now(),
       location: locate,
-      numText: ['�~[�', '�~@', '�~L', '�~I', '�~[~[', '�~T', '�~E�', '�~C', '�~E�', '�~]', '�~M~A',, '�~M~A�~@', '�]M~
+      numText: [13]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"},
       delimiter: del,
       dayOfMonths: [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
    }
