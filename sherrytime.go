@@ -175,6 +175,17 @@ func (st *SherryTime) Now() (string) {
    return st.now.Format(format.String())
 }
 
+// 目前日期
+func (st *SherryTime) Today()(string) {
+   var format bytes.Buffer
+   format.WriteString("2006")
+   format.WriteString(st.delimiter)
+   format.WriteString("01")
+   format.WriteString(st.delimiter)
+   format.WriteString("02")
+   return st.now.Format(format.String())
+}
+
 func NewSherryTime(locate, del string) (*SherryTime) {
    return &SherryTime {
       now: time.Now(),

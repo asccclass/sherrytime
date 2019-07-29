@@ -92,5 +92,12 @@ func TestNewSherryTime(t *testing.T) {
    } else { 
       log.Printf("Function toDateWs(dOrd int) (string) passed.")
    }
+
+   // test Today function
+   if tm.Format("2006-01-02") != st.Today() {
+      t.Errorf("Today() (string) has some problem.")
+   } else { 
+      log.Printf("Function Today() (string) passed.")
+   }
    
 }
