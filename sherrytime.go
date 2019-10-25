@@ -195,11 +195,3 @@ func NewSherryTime(locate, del string) (*SherryTime) {
       dayOfMonths: [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
    }
 }
-
-/*
-func main() {
-   st := NewSherryTime("Asia/Taipei", "-")
-
-   log.Printf("%v", st.Now()) // local time
-}
-*/
