@@ -3,23 +3,18 @@ package sherrytime
  *  Note: 1.西曆4年羅馬奧古斯都帝停閏,故是年2月仍只有28天。
  *        2.教皇格勒哥里第13始改曆,自西曆1582年10月4日逕跳至15日或自1752年9月2日跳至14日
  *        3.西元前 n 年之值為 -n+1
-*/
-
-
-import (
-   "time"
-   "bytes"
-   "strings"
-   "strconv"
-   "fmt"
-   // log "github.com/sirupsen/logrus"
-)
-
-/*
    private $numText = array('零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二');
    private $_week = array('日','一','二','三','四','五','六');
    private $_weekx = array('一','二','三','四','五','六', '日');
 */
+
+
+import (
+   "fmt"
+   "time"
+   "strings"
+   "strconv"
+)
 
 type SherryTime struct {
    now time.Time
@@ -29,7 +24,7 @@ type SherryTime struct {
    dayOfMonths [12]int	// 每月天數
 }
 
-// 阿拉伯數字轉國字
+// toNumText(i int)  阿拉伯數字轉國字
 func (st *SherryTime) toNumText(i int) (string) {  
    return st.numText[i] 
 }
@@ -164,26 +159,27 @@ func (st *SherryTime) toDateWs(dOrd int) (string)  {
       return fmt.Sprintf("%d-%d-%d", y, m, d)
 }
 
-// 取得目前日期時間
-func (st *SherryTime) Now() (string) {
-   var format bytes.Buffer
-   format.WriteString("2006")
-   format.WriteString(st.delimiter)
-   format.WriteString("01")
-   format.WriteString(st.delimiter)
-   format.WriteString("02 15:04:05")
-   return st.now.Format(format.String())
+func( st *SherryTime) DateTimeBaseFormat(datetime bool)(string) {
+   var format strings.Builder
+   fmt.Fprint(&format, "2006")
+   fmt.Fprint(&format, st.delimiter)
+   fmt.Fprint(&format, "01")
+   fmt.Fprint(&format, st.delimiter)
+   fmt.Fprint(&format, "02")
+   if(datetime) {
+      fmt.Fprint(&format, " 15:04:05")
+   }
+   return format.String()
 }
 
 // 目前日期
 func (st *SherryTime) Today()(string) {
-   var format bytes.Buffer
-   format.WriteString("2006")
-   format.WriteString(st.delimiter)
-   format.WriteString("01")
-   format.WriteString(st.delimiter)
-   format.WriteString("02")
-   return st.now.Format(format.String())
+   return st.now.Format(st.DateTimeBaseFormat(false))
+}
+
+// 取得目前日期時間
+func (st *SherryTime) Now() (string) {
+   return st.now.Format(st.DateTimeBaseFormat(true))
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {

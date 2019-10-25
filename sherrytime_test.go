@@ -6,6 +6,7 @@
 package sherrytime
 
 import (
+   "fmt"
    "testing"
    "time"
    "bytes"
@@ -99,5 +100,22 @@ func TestNewSherryTime(t *testing.T) {
    } else { 
       log.Printf("Function Today() (string) passed.")
    }
-   
+
+   // test func (st *SherryTime) TransferFormat(d string)(string, error)
+   transD, err := st.TransferFormat("10-17-19")
+   if err != nil || transD != "2019-10-17" {
+      if err != nil && err == fmt.Errorf("%s 格式錯誤，僅容許日期", transD) {
+         log.Printf("Function TransferFormat(d string)(string, error) passed.")
+      } else {
+         t.Errorf("Function TransferFormat(d string)(string, error) has some problem.")
+      }
+   }  else {
+   }
+   transD, err := st.TransferFormat("2019-10-12")
+   if err != nil || transD != "2019-10-12" {
+       t.Errorf("Function TransferFormat(d string)(string, error) has some problem.")
+   }  esle {
+      log.Printf("Function TransferFormat(d string)(string, error) passed.")
+   }
+ 
 }
