@@ -49,12 +49,16 @@ func (st *SherryTime) TransferFormat(d string)(string, error) {
    if len(str) != 3 {
       return "", fmt.Errorf("date format error")
    }
-   if(str[2] == today[0][2:4])  {   // 月-日-年
-      _, err := fmt.Fprintf(&dt, "%s%s%s%s%s", st.Year2West(str[2], true), st.delimiter, str[0], st.delimiter, str[1])
-      if err != nil {
-         return "", err
-      }
-   } 
+   if len(str[0]) != 4 {  // not 2019
+      if(str[2] == today[0][2:4])  {   // 月-日-年
+         _, err := fmt.Fprintf(&dt, "%s%s%s%s%s", st.Year2West(str[2], true), st.delimiter, str[0], st.delimiter, str[1])
+         if err != nil {
+            return "", err
+         }
+      } 
+   }  else {   // 格式正常 2019-10-28
+      fmt.Fprintf(&dt, d)
+   }
    return dt.String(), nil
 }
 
