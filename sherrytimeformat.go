@@ -31,23 +31,30 @@ func(st *SherryTime) Year2West(d string, isWestYear bool)(string) {
 
 // 轉換日期格式（不含時分秒）
 func (st *SherryTime) TransferFormat(d string)(string, error) {
-   var date strings.Builder
-   fmt.Fprint(&date, "")
+   if d == "" {
+      return "", fmt.Errorf("未傳入日期資料")
+   }
+   var dt strings.Builder
+   fmt.Fprint(&dt, "")
 
    // 先判斷是否有時分秒格式
    x := strings.Split(d, " ")
    if len(x)  == 2 {
-      return date.String(), fmt.Errorf("%s 格式錯誤，僅容許日期", d)
+      return "", fmt.Errorf("%s 格式錯誤，僅容許日期", d)
    }
 
    // 取得今日日期
    today := strings.Split(st.Today(), st.delimiter)
    str := strings.Split(d, st.delimiter)
    if len(str) != 3 {
-      return date.String(), fmt.Errorf("date format error")
+      return "", fmt.Errorf("date format error")
    }
    if(str[2] == today[0][2:4])  {   // 月-日-年
-      fmt.Fprintf(&date, "%s%s%s%s%s", st.Year2West(str[2], true), st.delimiter, str[0], st.delimiter, str[1])
-   }
-   return date.String(), nil
+      _, err := fmt.Fprintf(&dt, "%s%s%s%s%s", st.Year2West(str[2], true), st.delimiter, str[0], st.delimiter, str[1])
+      if err != nil {
+         return "", err
+      }
+   } 
+   return dt.String(), nil
 }
+

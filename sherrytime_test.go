@@ -104,18 +104,24 @@ func TestNewSherryTime(t *testing.T) {
    // test func (st *SherryTime) TransferFormat(d string)(string, error)
    transD, err := st.TransferFormat("10-17-19")
    if err != nil || transD != "2019-10-17" {
-      if err != nil && err == fmt.Errorf("%s 格式錯誤，僅容許日期", transD) {
-         log.Printf("Function TransferFormat(d string)(string, error) passed.")
-      } else {
-         t.Errorf("Function TransferFormat(d string)(string, error) has some problem.")
+      if err != nil {
+         if err == fmt.Errorf("%s 格式錯誤，僅容許日期", transD) {
+            log.Printf("Function TransferFormat('10-17-19')(string, error) format error passed.")
+         } else {
+            t.Errorf("Function TransferFormat('10-17-19')(string, error) has some problem")
+         }
+      }  else {
+         log.Printf("Function TransferFormat()(string, error) passed.")
       }
-   }  else {
+   } 
+   transD, err = st.TransferFormat("2019-10-12")
+   if err != nil {
+      if transD != "2019-10-12" {
+         t.Errorf("Function TransferFormat('2019-10-12')(string, error) has some problem." + err.Error())
+      }  else {
+         log.Printf("Function TransferFormat(d string)(string, error) passed.")
+      }
+   } else {
+      log.Printf("Function TransferFormat('2019-10-12')(string, error) passed.")
    }
-   transD, err := st.TransferFormat("2019-10-12")
-   if err != nil || transD != "2019-10-12" {
-       t.Errorf("Function TransferFormat(d string)(string, error) has some problem.")
-   }  esle {
-      log.Printf("Function TransferFormat(d string)(string, error) passed.")
-   }
- 
 }
