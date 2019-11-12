@@ -124,4 +124,5 @@ func TestNewSherryTime(t *testing.T) {
    } else {
       log.Printf("Function TransferFormat('2019-10-12')(string, error) passed.")
    }
+   log.Printf(st.NewUUID())
 }

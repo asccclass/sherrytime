@@ -12,6 +12,7 @@ package sherrytime
 import (
    "fmt"
    "time"
+   "sync"
    "strings"
    "strconv"
 )
@@ -24,9 +25,22 @@ type SherryTime struct {
    dayOfMonths [12]int	// 每月天數
 }
 
+var lock = sync.RWMutex{}
+
 // toNumText(i int)  阿拉伯數字轉國字
 func (st *SherryTime) toNumText(i int) (string) {  
    return st.numText[i] 
+}
+
+func (st *SherryTime) getTimeSince1582() uint64 {
+   defer lock.Unlock()
+
+   lock.Lock()
+   t := time.Now()
+   nanoSecond := t.UnixNano()
+
+   nano := uint64(nanoSecond / 100)
+   return nano + 122192928000000000
 }
 
 // <note> 西元1752年九月必須特別處理!
