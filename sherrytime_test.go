@@ -125,4 +125,18 @@ func TestNewSherryTime(t *testing.T) {
       log.Printf("Function TransferFormat('2019-10-12')(string, error) passed.")
    }
    log.Printf(st.NewUUID())
+
+   // 測試DateDiff(st, ed string) 日期天數
+   d := st.DateDiff("2020-03-21", "2020-03-25")
+   if d != 4 {
+         t.Errorf("Function DateDiff(st, ed string) has some problem.")
+   } else {
+         log.Printf("Function DateDiff(st, ed string) passed.")
+   }
+   d = st.DateDiff("2020-03-21 12:02:01", "2020-03-25 13:21:11")
+   if d != 4 {
+         t.Errorf("Function DateDiff(st, ed string) with time has some problem.")
+   } else {
+         log.Printf("Function DateDiff(st, ed string) with time passed.")
+   }
 }
