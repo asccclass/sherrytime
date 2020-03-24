@@ -195,17 +195,19 @@ func (st *SherryTime) Now() (string) {
    return st.now.Format(st.DateTimeBaseFormat(true))
 }
 
+// 回傳純日期
+func(st *SherryTime) PureDate(d string)(string) {
+   s := d
+   t := strings.Split(d, " ")
+   if len(t) >= 2 {
+      s = t[0]
+   }
+   return s
+}
+
 // 計算兩個日期差距天數
 func(st *SherryTime) DateDiff(stdate, ed string)(int) {
-   s := stdate
-   if len(strings.Split(stdate, " ")) >= 2 {
-      s = strings.Split(stdate, " ")[0]
-   }
-   t := ed
-   if len(strings.Split(ed, " ")) >= 2 {
-      t = strings.Split(ed, " ")[0]
-   }
-   return st.toDayOrdWs(t) - st.toDayOrdWs(s)
+   return st.toDayOrdWs(st.PureDate(ed)) - st.toDayOrdWs(st.PureDate(stdate))
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {
