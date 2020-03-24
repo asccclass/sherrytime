@@ -8,7 +8,6 @@ package sherrytime
    private $_weekx = array('一','二','三','四','五','六', '日');
 */
 
-
 import (
    "fmt"
    "time"
@@ -194,6 +193,19 @@ func (st *SherryTime) Today()(string) {
 // 取得目前日期時間
 func (st *SherryTime) Now() (string) {
    return st.now.Format(st.DateTimeBaseFormat(true))
+}
+
+// 計算兩個日期差距天數
+func(st *SherryTime) DateDiff(stdate, ed string)(int) {
+   s := stdate
+   if len(strings.Split(stdate, " ")) >= 2 {
+      s = strings.Split(stdate, " ")[0]
+   }
+   t := ed
+   if len(strings.Split(ed, " ")) >= 2 {
+      t = strings.Split(ed, " ")[0]
+   }
+   return st.toDayOrdWs(t) - st.toDayOrdWs(s)
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {
