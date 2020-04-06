@@ -139,4 +139,11 @@ func TestNewSherryTime(t *testing.T) {
    } else {
          log.Printf("Function DateDiff(st, ed string) with time passed.")
    }
+   // 測試Year()
+   yearx := st.Year()
+   if yearx != "2020" {
+         t.Errorf("Function st.Year() has some problem.")
+   } else {
+         log.Printf("Function Year() with time passed.")
+   }
 }

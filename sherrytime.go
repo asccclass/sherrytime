@@ -210,6 +210,13 @@ func(st *SherryTime) DateDiff(stdate, ed string)(int) {
    return st.toDayOrdWs(st.PureDate(ed)) - st.toDayOrdWs(st.PureDate(stdate))
 }
 
+// 回傳本年度年分
+func(st *SherryTime) Year()(string) {
+   t := st.PureDate(st.Now());
+   s := strings.Split(t, st.delimiter)
+   return s[0]
+}
+
 func NewSherryTime(locate, del string) (*SherryTime) {
    return &SherryTime {
       now: time.Now(),
