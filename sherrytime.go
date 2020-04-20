@@ -17,7 +17,7 @@ import (
 )
 
 type SherryTime struct {
-   now time.Time
+   current time.Time
    numText [13]string
    location string
    delimiter string	// 分隔符號
@@ -112,13 +112,13 @@ func(st *SherryTime) toDayOrdW(yy, mm, dd int) (int) {
          n += st.dayOfMonths[i]
       }
       yy--
-      n += yy * 365 + yy/4;
+      n += yy * 365 + (yy/4);
       if yy >= 4  {  // 西曆4年羅馬奧古斯都帝停閏
          n--
       }
       if yy >= 1600  {   // 教皇格勒哥里第13改曆
          i := yy - 1600;
-         n -= i/100 - i/400;
+         n -= (i/100) - (i/400);
       }
    } else {
       n = -1
@@ -194,12 +194,12 @@ func( st *SherryTime) DateTimeBaseFormat(datetime bool)(string) {
 
 // 目前日期
 func (st *SherryTime) Today()(string) {
-   return st.now.Format(st.DateTimeBaseFormat(false))
+   return st.current.Format(st.DateTimeBaseFormat(false))
 }
 
 // 取得目前日期時間
 func (st *SherryTime) Now() (string) {
-   return st.now.Format(st.DateTimeBaseFormat(true))
+   return st.current.Format(st.DateTimeBaseFormat(true))
 }
 
 // 回傳純日期
@@ -212,14 +212,28 @@ func(st *SherryTime) PureDate(d string)(string) {
    return s
 }
 
+// 日期基準點＋n天
+func(st *SherryTime) DateAdd(stdate string, n int)(string) {
+   ord := st.toDayOrdWs(stdate)
+   ord = ord + n
+   return st.toDateWs(ord)
+}
+
 // 計算兩個日期差距天數
 func(st *SherryTime) DateDiff(stdate, ed string)(int) {
    return st.toDayOrdWs(st.PureDate(ed)) - st.toDayOrdWs(st.PureDate(stdate))
 }
 
+// 回傳本年度年分
+func(st *SherryTime) Year()(string) {
+   t := st.PureDate(st.Now());
+   s := strings.Split(t, st.delimiter)
+   return s[0]
+}
+
 func NewSherryTime(locate, del string) (*SherryTime) {
    return &SherryTime {
-      now: time.Now(),
+      current: time.Now(),
       location: locate,
       numText: [13]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"},
       delimiter: del,
