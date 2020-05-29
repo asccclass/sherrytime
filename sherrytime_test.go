@@ -19,9 +19,9 @@ func TestNewSherryTime(t *testing.T) {
    tm := time.Now()
    var format bytes.Buffer
    format.WriteString("2006")
-   format.WriteString(st.delimiter)
+   format.WriteString(st.Delimiter)
    format.WriteString("01")
-   format.WriteString(st.delimiter)
+   format.WriteString(st.Delimiter)
    format.WriteString("02 15:04:05")
    expect := tm.Format(format.String())
    got := st.Now()

@@ -13,7 +13,7 @@ import(
 func(st *SherryTime) Year2West(d string, isWestYear bool)(string) {
    if(isWestYear) {  // 西元年
       if len(d) == 2 {  // 19 格式
-         today := strings.Split(st.Today(), st.delimiter) // 取得今日日期
+         today := strings.Split(st.Today(), st.Delimiter) // 取得今日日期
          d = today[0][0:2] + d
       } else if len(d) == 4 {
          return d
@@ -44,14 +44,14 @@ func (st *SherryTime) TransferFormat(d string)(string, error) {
    }
 
    // 取得今日日期
-   today := strings.Split(st.Today(), st.delimiter)
-   str := strings.Split(d, st.delimiter)
+   today := strings.Split(st.Today(), st.Delimiter)
+   str := strings.Split(d, st.Delimiter)
    if len(str) != 3 {
       return "", fmt.Errorf("date format error")
    }
    if len(str[0]) != 4 {  // not 2019
       if(str[2] == today[0][2:4])  {   // 月-日-年
-         _, err := fmt.Fprintf(&dt, "%s%s%s%s%s", st.Year2West(str[2], true), st.delimiter, str[0], st.delimiter, str[1])
+         _, err := fmt.Fprintf(&dt, "%s%s%s%s%s", st.Year2West(str[2], true), st.Delimiter, str[0], st.Delimiter, str[1])
          if err != nil {
             return "", err
          }
