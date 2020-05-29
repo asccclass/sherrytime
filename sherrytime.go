@@ -215,7 +215,6 @@ func(st *SherryTime) PureDate(d string)(string) {
 func(st *SherryTime) DateAdd(stdate string, n int)(string) {
    ord := st.toDayOrdWs(stdate)
    ord = ord + n
-   t := st.toDateWs(ord)
    return st.toDateWs(ord)
    
 }
