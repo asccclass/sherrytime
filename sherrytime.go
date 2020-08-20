@@ -29,7 +29,7 @@ var lock = sync.RWMutex{}
 // SetTime(time time) 將UTC轉為Asia/Taipei UTC+8
 func(st *SherryTime) SetCurrentTime(t time.Time) {
    location := time.FixedZone("UTCr+8", +8*60*60)
-   st.now = t.In(location)
+   st.current = t.In(location)
    
 }
 
