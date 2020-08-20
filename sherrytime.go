@@ -20,7 +20,7 @@ type SherryTime struct {
    current time.Time
    numText [13]string
    location string
-   delimiter string	// 分隔符號
+   Delimiter string	// 分隔符號
    dayOfMonths [12]int	// 每月天數
 }
 
@@ -30,7 +30,6 @@ var lock = sync.RWMutex{}
 func(st *SherryTime) SetCurrentTime(t time.Time) {
    location := time.FixedZone("UTCr+8", +8*60*60)
    st.current = t.In(location)
-   
 }
 
 // toNumText(i int)  阿拉伯數字轉國字
@@ -128,7 +127,7 @@ func(st *SherryTime) toDayOrdW(yy, mm, dd int) (int) {
 
 // 轉換成日序
 func(st *SherryTime) toDayOrdWs(yymmdd string)(int)  {
-   d := strings.Split(yymmdd, st.delimiter)
+   d := strings.Split(yymmdd, st.Delimiter)
    yy, _ := strconv.Atoi(d[0])
    mm, _ := strconv.Atoi(d[1])
    dd, _ := strconv.Atoi(d[2])
@@ -182,9 +181,9 @@ func (st *SherryTime) toDateWs(dOrd int) (string)  {
 func( st *SherryTime) DateTimeBaseFormat(datetime bool)(string) {
    var format strings.Builder
    fmt.Fprint(&format, "2006")
-   fmt.Fprint(&format, st.delimiter)
+   fmt.Fprint(&format, st.Delimiter)
    fmt.Fprint(&format, "01")
-   fmt.Fprint(&format, st.delimiter)
+   fmt.Fprint(&format, st.Delimiter)
    fmt.Fprint(&format, "02")
    if(datetime) {
       fmt.Fprint(&format, " 15:04:05")
@@ -202,6 +201,12 @@ func (st *SherryTime) Now() (string) {
    return st.current.Format(st.DateTimeBaseFormat(true))
 }
 
+// 回傳目前時間
+func(st *SherryTime) CurrentTime()([]string) {
+   t := strings.Split(st.Now(), " ")
+   return strings.Split(t[1], ":")
+}
+
 // 回傳純日期
 func(st *SherryTime) PureDate(d string)(string) {
    s := d
@@ -217,6 +222,7 @@ func(st *SherryTime) DateAdd(stdate string, n int)(string) {
    ord := st.toDayOrdWs(stdate)
    ord = ord + n
    return st.toDateWs(ord)
+   
 }
 
 // 計算兩個日期差距天數
@@ -227,7 +233,7 @@ func(st *SherryTime) DateDiff(stdate, ed string)(int) {
 // 回傳本年度年分
 func(st *SherryTime) Year()(string) {
    t := st.PureDate(st.Now());
-   s := strings.Split(t, st.delimiter)
+   s := strings.Split(t, st.Delimiter)
    return s[0]
 }
 
@@ -236,7 +242,7 @@ func NewSherryTime(locate, del string) (*SherryTime) {
       current: time.Now(),
       location: locate,
       numText: [13]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"},
-      delimiter: del,
+      Delimiter: del,
       dayOfMonths: [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
    }
 }
