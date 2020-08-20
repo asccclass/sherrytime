@@ -9,6 +9,16 @@ import(
    "strconv"
 )
 
+// Year2Chinese 將年份轉為民國年, 傳入須為xxxx四位數西元年
+func(st *SherryTime) Year2Chinese(d string)(string) {
+   year, err := strconv.Atoi(d)
+   if err != nil {
+      return ""
+   }
+   year -= 1911
+   return strconv.Itoa(year)
+}
+
 // Year2West  將年份轉換為西元年
 func(st *SherryTime) Year2West(d string, isWestYear bool)(string) {
    if(isWestYear) {  // 西元年
@@ -47,7 +57,7 @@ func (st *SherryTime) TransferFormat(d string)(string, error) {
    today := strings.Split(st.Today(), st.Delimiter)
    str := strings.Split(d, st.Delimiter)
    if len(str) != 3 {
-      return "", fmt.Errorf("date format error")
+      return "", fmt.Errorf("date format error" + d)
    }
    if len(str[0]) != 4 {  // not 2019
       if(str[2] == today[0][2:4])  {   // 月-日-年
@@ -61,4 +71,3 @@ func (st *SherryTime) TransferFormat(d string)(string, error) {
    }
    return dt.String(), nil
 }
-
