@@ -20,7 +20,7 @@ func(st *SherryTime) UnixTime2Timestamp(second string)(string, error) {
     if err != nil {
         return "", err
     }
-    tm := time.Unix(i, 0).In(loc).Format("2006/01/02 15:04:05")
+    tm := time.Unix(sec, 0).In(loc).Format("2006/01/02 15:04:05")
     return tm, nil
 }
 
