@@ -5,9 +5,24 @@ package sherrytime
 
 import(
    "fmt"
+   "time"
    "strings"
    "strconv"
 )
+
+// UnixTime Second to timestamp
+func(st *SherryTime) UnixTime2Timestamp(second string)(string, error) {
+    sec, err := strconv.ParseInt(second, 10, 64)
+    if err != nil {
+        return "", err
+    }
+    loc, err := time.LoadLocation(st.location)
+    if err != nil {
+        return "", err
+    }
+    tm := time.Unix(i, 0).In(loc).Format("2006/01/02 15:04:05")
+    return tm, nil
+}
 
 // Year2Chinese 將年份轉為民國年, 傳入須為xxxx四位數西元年
 func(st *SherryTime) Year2Chinese(d string)(string) {
