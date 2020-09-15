@@ -6,9 +6,11 @@ package sherrytime
 import (
    "net"
    "bytes"
+   "strings"
    "math/rand"
    "encoding/binary"
    "encoding/hex"
+   "github.com/google/uuid"
 )
 
 func (st *SherryTime) clockSeq() uint16 {
@@ -43,7 +45,7 @@ func (st *SherryTime) getNode() [6]byte {
 }
 
 // NewUUID create Universally unique identifier
-func (st *SherryTime) NewUUID() string {
+func(st *SherryTime) NewUUIDByTime() string {
    var uuid [16]byte
    t := st.getTimeSince1582()
    cSeq := st.clockSeq()
@@ -73,4 +75,9 @@ func (st *SherryTime) NewUUID() string {
    hex.Encode(dst[27:], uuid[12:])
 
    return string(dst[:])
+}
+
+func(st *SherryTime) NewUUID() string {
+    uuidWithHyphen := uuid.New()
+    return strings.Replace(uuidWithHyphen.String(), "-", "", -1)
 }
