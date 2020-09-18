@@ -19,7 +19,7 @@ import(
 )
 
 func main() {
-   st := NewSherryTime("Asia/Taipei", "-")  // Initial
+   st := sherrytime.NewSherryTime("Asia/Taipei", "-")  // Initial
    
    log.Printf("%v", st.Now()) // current time: "2019-07-30 12:15:12"
 
