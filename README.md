@@ -9,6 +9,7 @@ sherrytime_test.go		// test function
 
 ### Installation
 ```
+go get github.com/google/uuid
 go get github.com/asccclass/sherrytime
 ```
 
