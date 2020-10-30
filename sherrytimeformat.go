@@ -10,6 +10,24 @@ import(
    "strconv"
 )
 
+// 判斷Deleter
+func(st *SherryTime) GetDelimiter(s string)(string, error) {
+   if s == "" {
+      return "", E("no input.")
+   }
+   str := strings.Split(s, "/")
+   if len(str) == 3 {
+      st.Delimiter = "/"
+      return "/", nil
+   }
+   str = strings.Split(s, "-")
+   if len(str) == 3 {
+      st.Delimiter = "-"
+      return "-", nil
+   }
+   return "", fmt.Errorf("Delimiter format unknown") 
+}
+
 // UnixTime Second to timestamp
 func(st *SherryTime) UnixTime2Timestamp(second string)(string, error) {
     sec, err := strconv.ParseInt(second, 10, 64)
@@ -70,7 +88,11 @@ func (st *SherryTime) TransferFormat(d string)(string, error) {
 
    // 取得今日日期
    today := strings.Split(st.Today(), st.Delimiter)
-   str := strings.Split(d, st.Delimiter)
+   del, err := st.GetDelimiter(d)
+   if err != nil {
+      return "", fmt.Errorf("date format delimeter error:" + d)
+   }
+   str := strings.Split(d, del)
    if len(str) != 3 {
       return "", fmt.Errorf("date format error" + d)
    }
