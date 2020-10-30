@@ -13,7 +13,7 @@ import(
 // 判斷Deleter
 func(st *SherryTime) GetDelimiter(s string)(string, error) {
    if s == "" {
-      return "", E("no input.")
+      return "", fmt.Errorf("no input.")
    }
    str := strings.Split(s, "/")
    if len(str) == 3 {
