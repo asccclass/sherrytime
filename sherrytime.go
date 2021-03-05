@@ -225,7 +225,7 @@ func(st *SherryTime) DateAdd(stdate string, n int)(string) {
    
 }
 
-// 計算兩個時間差距，回傳分
+// 計算兩個時間差距，回傳 "04")分
 func(st *SherryTime) TimeDiff(stime, etime time.Time, format string)(string) {
    diff := etime.Sub(stime)
    out := time.Time{}.Add(diff)
