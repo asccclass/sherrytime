@@ -31,6 +31,14 @@ func TestNewSherryTime(t *testing.T) {
       log.Printf("Function Now() passed.")
    }
 
+   // 測試兩個時間差距
+   diffTime := st.TimeDiff(tm, tm.Add(time.Second * 600), "04")
+   if diffTime != "10" {
+      t.Errorf("st.TimeDiff() has some problem.(should 10 but got %s)", diffTime)
+   } else {
+      log.Printf("Function TimeDiff(stime, etime time.Time, format string)(string) passed.")
+   }
+
    // Is leapYear(year int) function checked.
    var leapYear int = 1880
    var IsLeap bool = true

@@ -225,6 +225,13 @@ func(st *SherryTime) DateAdd(stdate string, n int)(string) {
    
 }
 
+// 計算兩個時間差距，回傳分
+func(st *SherryTime) TimeDiff(stime, etime time.Time, format string)(string) {
+   diff := etime.Sub(stime)
+   out := time.Time{}.Add(diff)
+   return out.Format(format)
+}
+
 // 計算兩個日期差距天數
 func(st *SherryTime) DateDiff(stdate, ed string)(int) {
    return st.toDayOrdWs(st.PureDate(ed)) - st.toDayOrdWs(st.PureDate(stdate))
