@@ -196,12 +196,12 @@ func (st *SherryTime) Today()(string) {
    return st.current.Format(st.DateTimeBaseFormat(false))
 }
 
-// 取得目前日期時間
+// 取得目前系統日期時間
 func (st *SherryTime) Now() (string) {
    return st.current.Format(st.DateTimeBaseFormat(true))
 }
 
-// 回傳目前時間
+// 回傳目前系統時間
 func(st *SherryTime) CurrentTime()([]string) {
    t := strings.Split(st.Now(), " ")
    return strings.Split(t[1], ":")
