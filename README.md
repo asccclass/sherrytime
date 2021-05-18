@@ -1,5 +1,7 @@
 ### Sherry Time Utility
 
+世界協調時間（簡稱UTC）是最主要的世界時間標準，其以原子時秒長為基礎，在時刻上儘量接近於格林威治標準時間。
+
 
 #### file lists
 ```
@@ -42,3 +44,4 @@ make test
 
 ### Reference
 * [RFC 4122: Time-Based UUID](https://tools.ietf.org/html/rfc4122)
+* [Comprehensive Guide to Dates and Times in Go](https://qvault.io/golang/golang-date-time/)
