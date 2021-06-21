@@ -125,6 +125,11 @@ func(st *SherryTime) toDayOrdW(yy, mm, dd int) (int) {
    return n
 }
 
+// 開放給外面介面使用(for 相容性)
+func(st *SherryTime) ToDayOrdWs(yymmdd string)(int) {
+   return st.toDayOrdWs(yymmdd)
+}
+
 // 轉換成日序
 func(st *SherryTime) toDayOrdWs(yymmdd string)(int)  {
    d := strings.Split(yymmdd, st.Delimiter)
@@ -166,6 +171,11 @@ func (st *SherryTime) toDateW(dOrd int)(yy, mm, dd, week int) {
    }
    w := (dOrd + baseWeek) % 7
    return yy, mm, dd, w
+}
+
+// 日序轉西元(4相容性）
+func(st *SherryTime) ToDateWs(dayOrder int)(string) {
+   return st.toDateWs(dayOrder)
 }
 
 // 日序轉西元
