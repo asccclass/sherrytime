@@ -236,8 +236,8 @@ func(st *SherryTime) DateAdd(stdate string, n int)(string) {
 }
 
 // 計算時間差 分)return
-func(st *SherryTime) TimeDiffStr(st, ed string)(int)  {
-   x := strings.Split(st, ":")
+func(st *SherryTime) TimeDiffStr(std, ed string)(int)  {
+   x := strings.Split(std, ":")
    e := strings.Split(ed, ":")
 
    h, _ := strconv.Atoi(x[0])
@@ -247,7 +247,7 @@ func(st *SherryTime) TimeDiffStr(st, ed string)(int)  {
    mm, _ := strconv.Atoi(e[1])
    dd, _ := strconv.Atoi(e[2])
    
-   if h > hh || h < hh{
+   if h > hh || h < hh {
       return (h - hh) * 3600
    } else if hh == hh {
       if m > mm || m < mm {
@@ -255,11 +255,10 @@ func(st *SherryTime) TimeDiffStr(st, ed string)(int)  {
       } else {
          if d > dd || d < dd {
             return (d - dd) 
-         }  else {
-            return 0
          }
       }
    } 
+   return 0
 }
 
 // 計算兩個時間差距，回傳 "04")分
