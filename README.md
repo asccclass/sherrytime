@@ -40,6 +40,7 @@ make test
 * toDayOrdW(yy, mm, dd int)(int)	取得某年月日之日序 
 * toDayOrdWs(yymmdd string)(int) 	取得某年月日（字串）之日序
 * UnixTime2Timestamp(second string)(string, error)	將Unix秒數時間，轉換為local的timestamp
+* SepToday()(string, string, string, string)		回傳大寫之年月日星期
 
 
 ### Reference

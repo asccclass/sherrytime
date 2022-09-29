@@ -217,7 +217,7 @@ func(st *SherryTime) CurrentTime()([]string) {
    return strings.Split(t[1], ":")
 }
 
-// 回傳純日期
+// 回傳純日期 "2022-09-21"
 func(st *SherryTime) PureDate(d string)(string) {
    s := d
    t := strings.Split(d, " ")
@@ -273,11 +273,31 @@ func(st *SherryTime) DateDiff(stdate, ed string)(int) {
    return st.toDayOrdWs(st.PureDate(ed)) - st.toDayOrdWs(st.PureDate(stdate))
 }
 
-// 回傳本年度年分
-func(st *SherryTime) Year()(string) {
+func(st *SherryTime) BaseX(i int)(string) {
    t := st.PureDate(st.Now());
    s := strings.Split(t, st.Delimiter)
-   return s[0]
+   return s[i]
+}
+ 
+// 回傳本年度年分
+func(st *SherryTime) Year()(string) {
+   return st.BaseX(0)
+}
+// 回傳本年度月份
+func(st *SherryTime) Month()(string) {
+   return st.BaseX(1)
+}
+// 回傳目前日期
+func(st *SherryTime) Day()(string) {
+   return st.BaseX(2)
+}
+
+// 回傳大寫之年月日星期
+func(st *SherryTime) SepToday()(string, string, string, string) {
+   today := st.Today()
+   dayOrder := st.toDayOrdWs(today)
+   yy, mm, _, ww := st.toDateW(dayOrder)  // int
+   return strconv.Itoa(yy), st.toNumText(mm), st.Day(), st.toNumText(ww)
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {
