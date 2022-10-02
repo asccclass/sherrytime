@@ -173,7 +173,7 @@ func (st *SherryTime) toDateW(dOrd int)(yy, mm, dd, week int) {
    return yy, mm, dd, w
 }
 
-// 日序轉西元(4相容性）
+// 日序轉西元(for 相容性）
 func(st *SherryTime) ToDateWs(dayOrder int)(string) {
    return st.toDateWs(dayOrder)
 }
@@ -292,12 +292,21 @@ func(st *SherryTime) Day()(string) {
    return st.BaseX(2)
 }
 
+// 回傳大寫之年月日星期 return)年月日星期幾
+func(st *SherryTime) SepDay(d string)(string, string, string, string) {
+   source := strings.Split(d, st.Delimiter)
+   dayOrder := st.toDayOrdWs(d)
+   yy, mm, _, ww := st.toDateW(dayOrder)  // int
+   s := st.toNumText(ww)
+   if ww == 0 {
+      s = "日"
+   }
+   return strconv.Itoa(yy), st.toNumText(mm), source[2], s
+}
+
 // 回傳大寫之年月日星期
 func(st *SherryTime) SepToday()(string, string, string, string) {
-   today := st.Today()
-   dayOrder := st.toDayOrdWs(today)
-   yy, mm, _, ww := st.toDateW(dayOrder)  // int
-   return strconv.Itoa(yy), st.toNumText(mm), st.Day(), st.toNumText(ww)
+   return st.SepDay(st.Today())
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {
