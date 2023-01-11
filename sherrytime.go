@@ -203,11 +203,13 @@ func( st *SherryTime) DateTimeBaseFormat(datetime bool)(string) {
 
 // 目前日期
 func (st *SherryTime) Today()(string) {
+   st.current = time.Now()
    return st.current.Format(st.DateTimeBaseFormat(false))
 }
 
 // 取得目前系統日期時間
 func (st *SherryTime) Now() (string) {
+   st.current = time.Now()
    return st.current.Format(st.DateTimeBaseFormat(true))
 }
 
