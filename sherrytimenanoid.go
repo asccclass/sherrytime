@@ -3,6 +3,7 @@ package sherrytime
    產生Neno ID
 */
 
+/*
 import (
    "github.com/jaevor/go-nanoid"
 )
@@ -14,3 +15,4 @@ func(st *SherryTime) NewNanoID()(string, error) {
    }
    return canonicID, nil
 }
+*/
