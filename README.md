@@ -12,13 +12,13 @@ sherrytime_test.go		// test function
 ### Installation
 ```
 go get github.com/google/uuid
-go get github.com/asccclass/sherrytime
+go get github.com/asccclass/staticfileserver/lib/sherrytime
 ```
 
 ### Usage
 ```
 import(
-   "github.com/asccclass/sherrytime"
+   "github.com/asccclass/staticfileserver/lib/sherrytime"
 )
 
 func main() {
