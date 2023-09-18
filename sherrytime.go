@@ -32,6 +32,13 @@ type SherryTime struct {
 
 var lock = sync.RWMutex{}
 
+// DateOf returns the Date in which a time occurs in that time's location.
+func(st *SherryTime) DateOf(t time.Time)(Date) {
+   var d Date
+   d.Year, d.Month, d.Day = t.Date()
+   return d
+}
+
 // SetTime(time time) 將UTC轉為Asia/Taipei UTC+8
 func(st *SherryTime) SetCurrentTime(t time.Time) {
    location := time.FixedZone("UTCr+8", +8*60*60)
