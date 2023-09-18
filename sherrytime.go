@@ -16,12 +16,18 @@ import (
    "strconv"
 )
 
+type Date struct {
+   Year  int        // Year (e.g., 2014).
+   Month time.Month // Month of the year (January = 1, ...).
+   Day   int        // Day of the month, starting at 1.
+}
+
 type SherryTime struct {
    current time.Time
    numText [13]string
    location string
-   Delimiter string	// 分隔符號
-   dayOfMonths [12]int	// 每月天數
+   Delimiter string   // 分隔符號
+   dayOfMonths [12]int   // 每月天數
 }
 
 var lock = sync.RWMutex{}
