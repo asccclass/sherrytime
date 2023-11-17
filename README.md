@@ -37,6 +37,8 @@ make test
 ```
 
 ### Functions list
+* Today()(string)	取得今日日期
+* Now() (string)	取得系統目前時間
 * toDayOrdW(yy, mm, dd int)(int)	取得某年月日之日序 
 * toDayOrdWs(yymmdd string)(int) 	取得某年月日（字串）之日序
 * UnixTime2Timestamp(second string)(string, error)	將Unix秒數時間，轉換為local的timestamp
