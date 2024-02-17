@@ -103,6 +103,11 @@ func (st *SherryTime) lastMonthDay(yy, mm int) (int) {
    // return (mm != 0 ? (mm == 2 && yy != 0 ? (st.leapYear(yy) ? 29 : 28) : st.dayOfMonths[mm-1]) : 31)
 }
 
+// 回傳每月的最後的天數
+func(app *SherryTime) LastMonthDay(yy, mm int)(int) {
+   return app.lastMonthDay(yy, mm)
+}
+
 // <func> Get day ordinal for western calendar.
 // The ordinal of 1/1/1 is 1.
 // <return> >0) success; -1) fail.
