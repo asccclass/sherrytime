@@ -219,6 +219,15 @@ func( st *SherryTime) DateTimeBaseFormat(datetime bool)(string) {
    return format.String()
 }
 
+// 回傳年月日
+func(app *SherryTime) TodayYMD()(int, int, int) {
+   t := strings.Split(app.Today(), app.Delimiter)
+   y, _ := strconv.Atoi(t[0])
+   m, _ := strconv.Atoi(t[1])
+   d, _ := strconv.Atoi(t[2])
+   return y, m, d
+}
+
 // 目前日期
 func (st *SherryTime) Today()(string) {
    st.current = time.Now()
@@ -327,6 +336,28 @@ func(st *SherryTime) SepDay(d string)(string, string, string, string) {
 // 回傳大寫之年月日星期
 func(st *SherryTime) SepToday()(string, string, string, string) {
    return st.SepDay(st.Today())
+}
+
+// 回傳特定日期的星期幾
+func(app *SherryTime) WeekDay(yy, mm, dd int)(int, error) {
+   m := ""
+   d := ""
+   if mm < 10 {
+      m = fmt.Sprintf("0%d", mm)
+   } else {
+      m = fmt.Sprintf("%d", mm)
+   }
+   if dd < 10 {
+      d = fmt.Sprintf("0%d", dd)
+   } else {
+      d = fmt.Sprintf("%d", dd)
+   }
+   dt := fmt.Sprintf("%d-%s-%s", yy, m, d)
+   t, err := time.Parse("2006-01-02", dt)
+   if err != nil {
+      return -1, err
+   }
+   return int(t.Weekday()), nil
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {
