@@ -46,8 +46,8 @@ func (st *SherryTime) getNode() [6]byte {
    return nodeID
 }
 
-// UUID　Ｖ７
-func(st *SherryTime) NewUUIDV7(version string)([16]byte, error) {
+// UUID v7
+func(st *SherryTime) NewUUIDV7()([16]byte, error) {
     var value [16]byte
     _, err := rand.Read(value[:])
     if err != nil {
