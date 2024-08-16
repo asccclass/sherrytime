@@ -16,15 +16,28 @@ import (
    "strconv"
 )
 
+type Date struct {
+   Year  int        // Year (e.g., 2014).
+   Month time.Month // Month of the year (January = 1, ...).
+   Day   int        // Day of the month, starting at 1.
+}
+
 type SherryTime struct {
    current time.Time
    numText [13]string
    location string
-   Delimiter string	// 分隔符號
-   dayOfMonths [12]int	// 每月天數
+   Delimiter string   // 分隔符號
+   dayOfMonths [12]int   // 每月天數
 }
 
 var lock = sync.RWMutex{}
+
+// DateOf returns the Date in which a time occurs in that time's location.
+func(st *SherryTime) DateOf(t time.Time)(Date) {
+   var d Date
+   d.Year, d.Month, d.Day = t.Date()
+   return d
+}
 
 // SetTime(time time) 將UTC轉為Asia/Taipei UTC+8
 func(st *SherryTime) SetCurrentTime(t time.Time) {
@@ -88,6 +101,11 @@ func (st *SherryTime) lastMonthDay(yy, mm int) (int) {
       return 31
    }
    // return (mm != 0 ? (mm == 2 && yy != 0 ? (st.leapYear(yy) ? 29 : 28) : st.dayOfMonths[mm-1]) : 31)
+}
+
+// 回傳每月的最後的天數
+func(app *SherryTime) LastMonthDay(yy, mm int)(int) {
+   return app.lastMonthDay(yy, mm)
 }
 
 // <func> Get day ordinal for western calendar.
@@ -204,6 +222,15 @@ func( st *SherryTime) DateTimeBaseFormat(datetime bool)(string) {
    return format.String()
 }
 
+// 回傳年月日
+func(app *SherryTime) TodayYMD()(int, int, int) {
+   t := strings.Split(app.Today(), app.Delimiter)
+   y, _ := strconv.Atoi(t[0])
+   m, _ := strconv.Atoi(t[1])
+   d, _ := strconv.Atoi(t[2])
+   return y, m, d
+}
+
 // 目前日期
 func (st *SherryTime) Today()(string) {
    st.current = time.Now()
@@ -312,6 +339,28 @@ func(st *SherryTime) SepDay(d string)(string, string, string, string) {
 // 回傳大寫之年月日星期
 func(st *SherryTime) SepToday()(string, string, string, string) {
    return st.SepDay(st.Today())
+}
+
+// 回傳特定日期的星期幾
+func(app *SherryTime) WeekDay(yy, mm, dd int)(int, error) {
+   m := ""
+   d := ""
+   if mm < 10 {
+      m = fmt.Sprintf("0%d", mm)
+   } else {
+      m = fmt.Sprintf("%d", mm)
+   }
+   if dd < 10 {
+      d = fmt.Sprintf("0%d", dd)
+   } else {
+      d = fmt.Sprintf("%d", dd)
+   }
+   dt := fmt.Sprintf("%d-%s-%s", yy, m, d)
+   t, err := time.Parse("2006-01-02", dt)
+   if err != nil {
+      return -1, err
+   }
+   return int(t.Weekday()), nil
 }
 
 func NewSherryTime(locate, del string) (*SherryTime) {

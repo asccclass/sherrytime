@@ -160,4 +160,12 @@ func TestNewSherryTime(t *testing.T) {
    } else {
          log.Printf("Function DateAdd(string, int) with time passed.")
    }
+
+   // 天干地支
+   hseb := st.HSEB(2020)
+   if hseb != "庚子" {
+      t.Errorf("Function st.DateAdd(string, int) has some problem. should 2020-04-15, but got %s", yearx)
+   } else {
+      log.Printf("HSEB passed.")
+   }
 }
