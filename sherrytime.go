@@ -145,25 +145,28 @@ func(st *SherryTime) toDayOrdWs(yymmdd string)(int)  {
 func (st *SherryTime) toDateW(dOrd int)(yy, mm, dd, week int) {
    var baseWeek int = 6
 
-   yy = (int((float64(dOrd)/365.25)) + 1)
+   yy = (int((float64(dOrd)/float64(365.25))) + 1)
    ord := st.toDayOrdW(yy, 1, 1)
    if ord < 0 {
       return -1, 0, 0, 0
    }
    dd = dOrd - ord + 1
    mm = 1
-   yes := yy == 1582 && mm == 10
-   var n int = 0
-   if yes {
-      n = 21
-   } else {
-      n = st.lastMonthDay(yy, mm)
-   }
+   n := st.lastMonthDay(yy, mm)
+   yes := false
+
    for dd > n  {
-      dd -= n
-      if mm++; mm > 12  {  
+      dd = dd - n
+      mm = mm + 1
+      if mm > 12  {  
          yy++
          mm = 1
+      }
+      yes = (yy == 1582 && mm == 10)
+      if yes {
+         n = 21
+      } else {
+         n = st.lastMonthDay(yy, mm)
       }
    }
    if yes && dd > 4 {
