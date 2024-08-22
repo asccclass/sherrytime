@@ -4,12 +4,13 @@ package sherrytime
 */
 
 import (
+   "fmt"
    "net"
    "time"
    "bytes"
    "strings"
    "math/rand"
-   "crypto/rand"
+   cryrand "crypto/rand"
    "encoding/hex"
    "encoding/binary"
    "github.com/google/uuid"
@@ -47,11 +48,11 @@ func (st *SherryTime) getNode() [6]byte {
 }
 
 // UUID v7
-func(st *SherryTime) NewUUIDV7()([16]byte, error) {
+func(st *SherryTime) NewUUIDV7()(string, error) {
     var value [16]byte
-    _, err := rand.Read(value[:])
+    _, err := cryrand.Read(value[:])
     if err != nil {
-        return value, err
+        return "", err
     }
     timestamp := uint64(time.Now().UnixNano() / int64(time.Millisecond)) // timestamp
 
@@ -65,7 +66,7 @@ func(st *SherryTime) NewUUIDV7()([16]byte, error) {
     value[6] = (value[6] & 0x0F) | 0x70
     value[8] = (value[8] & 0x3F) | 0x80
 
-    return value, nil
+    return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x", value[0:4], value[4:6], value[6:8], value[8:10], value[10:16]), nil
 }
 
 // NewUUID create Universally unique identifier
