@@ -176,7 +176,7 @@ func (st *SherryTime) toDateW(dOrd int)(yy, mm, dd, week int) {
    for dd > n  {
       dd = dd - n
       mm = mm + 1
-      if mm > 12  {  
+      if mm > 12  {
          yy++
          mm = 1
       }

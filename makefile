@@ -7,6 +7,3 @@ s:
 
 test:
 	go test
-
-s:
-	git push -u origin master
