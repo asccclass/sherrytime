@@ -1,6 +1,6 @@
 package sherrytime
 /*
-   產生UUID
+   產生UUID 
 */
 
 import (
