@@ -81,5 +81,4 @@ This project is licensed under the MIT License.
 Developed and maintained by [LIU CHIH HAN (asccclass)](https://github.com/asccclass).
 
 ---
-
-For more information, visit the [sherrytime GitHub page](https://github.com/asccclass/sherrytime).
+For more information, visit the [asccclass  page](https://www.justdrink.com.tw/).
