@@ -363,6 +363,25 @@ func(app *SherryTime) WeekDay(yy, mm, dd int)(int, error) {
    return int(t.Weekday()), nil
 }
 
+// 判斷目前時間是否落在兩個時間字串中
+func(app *SherryTime) IsNowBetween(startStr, endStr string) (bool, error) {
+   layout := "2006-01-02 15:04:05"  // 定義時間格式
+   loc, err := time.LoadLocation("Local")
+   if err != nil {
+      return false, fmt.Errorf("parse local Time failed: %s", err.Error())
+   }
+   startTime, err := time.ParseInLocation(layout, startStr, loc)
+   if err != nil {
+      return false, fmt.Errorf("parse StartTime failed: %s", err.Error())
+   }
+   endTime, err := time.ParseInLocation(layout, endStr, loc)
+   if err != nil {
+      return false, fmt.Errorf("parse EndTime failed: %s", err.Error())
+   }
+   now := time.Now()  // time.Now().UTC() // 獲取現在時間
+   return (now.After(startTime) || now.Equal(startTime)) && (now.Before(endTime) || now.Equal(endTime)), nil
+}
+
 func NewSherryTime(locate, del string) (*SherryTime) {
    return &SherryTime {
       current: time.Now(),

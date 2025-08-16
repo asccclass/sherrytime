@@ -118,6 +118,11 @@ func main() {
 }
 ```
 
+## 判斷目前時間是否落在兩個字串時間內
+```
+IsNowBetween(startStr, endStr string) (bool, error)
+```
+
 ## 🙋‍♂️ Author
 
 Developed and maintained by [LIU CHIH HAN (asccclass)](https://github.com/asccclass).
